@@ -1,0 +1,50 @@
+{
+  "name": "simple-jsx-handler",
+  "description": "This is a simple JSX/TSX handler.",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "esnext": "src/index.ts",
+  "author": {
+    "name": "Kārlis Čerņavskis",
+    "email": "karliscern@gmail.com",
+    "url": "https://cernavskis.dev/"
+  },
+  "private": false,
+  "license": "CC0-1.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/SwanX1/simple-jsx-handler.git"
+  },
+  "bugs": "https://github.com/SwanX1/simple-jsx-handler/issues",
+  "keywords": [
+    "jsx",
+    "tsx",
+    "react",
+    "react-jsx",
+    "react-tsx",
+    "html"
+  ],
+  "scripts": {
+    "build": "npm run build:only",
+    "build:only": "tsc",
+    "build:noemit": "tsc --noEmit",
+    "build:watch": "tsc -w",
+    "check": "npm run build:noemit && npm run prebuild",
+    "format": "prettier --config .prettierrc.json --write src *.json .*.json .github",
+    "format:check": "prettier --config .prettierrc.json --check src *.json .*.json .github",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "prebuild": "npm run format:check && npm run lint",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.39.0",
+    "@typescript-eslint/parser": "^5.39.0",
+    "eslint": "^8.24.0",
+    "husky": "^8.0.1",
+    "prettier": "^2.7.1",
+    "prettier-package-json": "^2.7.0",
+    "typescript": "^4.8.4"
+  }
+}
