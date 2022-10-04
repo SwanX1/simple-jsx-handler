@@ -10,7 +10,7 @@ declare global {
 type removeOn<T extends `${'on' | 'once'}:${string}`> = T extends `${'on' | 'once'}:${infer Rest}` ? Rest : never;
 
 type ElementAttributes = {
-  [K in `${'on' | 'once'}:${keyof HTMLElementEventMap}`]: (
+  [K in `${'on' | 'once'}:${keyof HTMLElementEventMap}`]?: (
     this: HTMLElement,
     event: HTMLElementEventMap[removeOn<K>]
   ) => void;
