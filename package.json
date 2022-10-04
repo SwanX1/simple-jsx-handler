@@ -1,7 +1,7 @@
 {
   "name": "simple-jsx-handler",
   "description": "This is a simple JSX/TSX handler.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "esnext": "src/index.ts",
