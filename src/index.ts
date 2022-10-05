@@ -100,7 +100,7 @@ export function _createElement(tag: string | symbol, attrs: ElementAttributes, .
   } else {
     element = document.createElement(tag);
 
-    for (const [eventName, value] of Object.entries(renderableOptions.events.on)) {
+    for (const [eventName, value] of Object.entries(renderableOptions.events.once)) {
       if (checkEvent(eventName, value)) {
         element.addEventListener(eventName, function listener(e) {
           element.removeEventListener(eventName, listener);
@@ -110,7 +110,7 @@ export function _createElement(tag: string | symbol, attrs: ElementAttributes, .
       }
     }
 
-    for (const [eventName, value] of Object.entries(renderableOptions.events.once)) {
+    for (const [eventName, value] of Object.entries(renderableOptions.events.on)) {
       if (checkEvent(eventName, value)) {
         // @ts-expect-error ...
         element.addEventListener(eventName, value.bind(element));
