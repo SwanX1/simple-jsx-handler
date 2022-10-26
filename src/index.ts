@@ -65,7 +65,7 @@ export function _createElement(
   }
 
   if (typeof tag === 'function') {
-    return tag(attrs, ...children);
+    return tag(attrs ?? {}, ...children);
   }
 
   const renderableOptions: RenderableOptions = {
