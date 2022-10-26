@@ -2,6 +2,7 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
     interface IntrinsicElements {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       [elemName: string]: any;
     }
   }
@@ -32,16 +33,8 @@ export interface Renderable {
   render(options: RenderableOptions, ...children: Node[]): HTMLElement;
 }
 
-const registeredRenderables: Map<string, Renderable> = new Map();
-
-export function registerRenderable(tagName: string, renderable: Renderable) {
-  if (registeredRenderables.has(tagName)) {
-    throw new Error(`Renderable tag "${tagName}" has already been registered!`);
-  }
-  registeredRenderables.set(tagName, renderable);
-}
-
 export function _createElement(tag: symbol, props: ElementAttributes, ...children: Node[]): HTMLElement;
+export function _createElement(tag: Renderable, props: ElementAttributes, ...children: Node[]): HTMLElement;
 export function _createElement<TagName extends keyof JSX.IntrinsicElements>(
   tag: TagName,
   props: ElementAttributes,
@@ -57,8 +50,11 @@ export function _createElement<TagName extends keyof HTMLElementDeprecatedTagNam
   props: ElementAttributes,
   ...children: Node[]
 ): HTMLElementDeprecatedTagNameMap[TagName];
-// export function _createElement(tag: string, props: ElementAttributes, ...children: Node[]): HTMLElement;
-export function _createElement(tag: string | symbol, attrs: ElementAttributes, ...children: Node[]): HTMLElement {
+export function _createElement(
+  tag: string | symbol | Renderable,
+  attrs: ElementAttributes,
+  ...children: Node[]
+): HTMLElement {
   if (typeof tag === 'symbol') {
     if (tag !== _fragment) {
       throw new TypeError('Invalid symbol for _createElement function!');
@@ -66,7 +62,6 @@ export function _createElement(tag: string | symbol, attrs: ElementAttributes, .
     tag = 'jsx-frag';
   }
 
-  const renderable = registeredRenderables.get(tag);
   const renderableOptions: RenderableOptions = {
     events: {
       on: {},
@@ -95,9 +90,23 @@ export function _createElement(tag: string | symbol, attrs: ElementAttributes, .
   }
 
   let element: HTMLElement;
-  if (renderable) {
-    element = renderable.render(renderableOptions, ...children);
+  if (typeof tag === 'object' && 'render' in tag) {
+    element = tag.render(renderableOptions, ...children);
   } else {
+    if (typeof tag !== 'string') {
+      throw new TypeError('Tag is not a string.', {
+        cause: {
+          context: {
+            tag,
+            attributes: renderableOptions.attributes,
+            events: {
+              on: renderableOptions.events.on,
+              once: renderableOptions.events.once,
+            },
+          },
+        },
+      });
+    }
     element = document.createElement(tag);
 
     for (const [eventName, value] of Object.entries(renderableOptions.events.once)) {
