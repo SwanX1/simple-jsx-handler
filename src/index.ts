@@ -67,6 +67,7 @@ export function _createElement(
       throw new TypeError('Invalid symbol for _createElement function!');
     }
     tag = 'jsx-frag';
+    attrs ??= {};
     attrs[FRAGMENT_IDENTIFIER] = '';
   }
 
