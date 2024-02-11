@@ -22,6 +22,11 @@ export type ElementAttributes = {
 export type Renderable<T extends HTMLElement = HTMLElement> = (attributes: ElementAttributes, ...children: Node[]) => T;
 
 export const _fragment = Symbol('_fragment');
+const FRAGMENT_IDENTIFIER =
+  'jsx-frag' +
+  Array(5)
+    .fill(null)
+    .reduce(acc => acc + Math.random().toString(36).slice(2, 13), ''); // Long random string that probably won't collide with anything
 
 interface RenderableOptions<T extends HTMLElement = HTMLElement> {
   attributes: Record<string, unknown>;
@@ -62,6 +67,7 @@ export function _createElement(
       throw new TypeError('Invalid symbol for _createElement function!');
     }
     tag = 'jsx-frag';
+    attrs[FRAGMENT_IDENTIFIER] = '';
   }
 
   if (typeof tag === 'function') {
@@ -134,7 +140,11 @@ export function _createElement(
   }
 
   for (const child of children) {
-    element.appendChild(typeof child.nodeType === 'undefined' ? document.createTextNode(child.toString()) : child);
+    if (child instanceof HTMLElement && child.hasAttribute(FRAGMENT_IDENTIFIER)) {
+      child.childNodes.forEach(grandchild => element.appendChild(grandchild));
+    } else {
+      element.appendChild(typeof child.nodeType === 'undefined' ? document.createTextNode(child.toString()) : child);
+    }
   }
 
   return element;
