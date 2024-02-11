@@ -142,7 +142,15 @@ export function _createElement(
 
   for (const child of children) {
     if (child instanceof HTMLElement && child.hasAttribute(FRAGMENT_IDENTIFIER)) {
-      child.childNodes.forEach(grandchild => element.appendChild(grandchild));
+      // You have to copy the childNodes array because it's a live list, and doing .appendChild will modify it
+      const childNodes = Array(child.childNodes.length)
+        .fill(null)
+        .map((_, i) => child.childNodes[i]);
+      for (const grandchild of childNodes) {
+        element.appendChild(
+          typeof grandchild.nodeType === 'undefined' ? document.createTextNode(grandchild.toString()) : grandchild
+        );
+      }
     } else {
       element.appendChild(typeof child.nodeType === 'undefined' ? document.createTextNode(child.toString()) : child);
     }
