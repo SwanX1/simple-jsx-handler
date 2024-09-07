@@ -141,6 +141,9 @@ export function _createElement(
   }
 
   for (const child of children) {
+    if (typeof child === 'undefined' || child === null) {
+      continue;
+    }
     if (child instanceof HTMLElement && child.hasAttribute(FRAGMENT_IDENTIFIER)) {
       // You have to copy the childNodes array because it's a live list, and doing .appendChild will modify it
       const childNodes = Array(child.childNodes.length)
