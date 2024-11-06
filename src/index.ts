@@ -174,3 +174,7 @@ function checkEvent(eventName: string, value: unknown): boolean {
   }
   return false;
 }
+
+// jsxImportSource compatibility
+export const jsx = _createElement;
+export const Fragment = _fragment;
