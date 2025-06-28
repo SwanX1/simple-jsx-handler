@@ -1,13 +1,14 @@
 {
   "name": "simple-jsx-handler",
   "description": "This is a simple JSX/TSX handler.",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "esnext": "src/index.ts",
   "exports": {
     ".": "./dist/index.js",
-    "./jsx-runtime": "./dist/index.js"
+    "./jsx-runtime": "./dist/index.js",
+    "./jsx-dev-runtime": "./dist/index.js"
   },
   "author": {
     "name": "Kārlis Čerņavskis",
