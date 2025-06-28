@@ -178,3 +178,22 @@ function checkEvent(eventName: string, value: unknown): boolean {
 // jsxImportSource compatibility
 export const jsx = _createElement;
 export const Fragment = _fragment;
+
+// New JSX transforms
+export function _jsxDEV(
+  tag: Parameters<typeof _createElement>[0],
+  props: ElementAttributes & {
+    children?: Node[];
+  } = {},
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _key?: string | number | null,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _source?: { fileName: string; lineNumber: number; columnNumber: number },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _self?: unknown
+): HTMLElement {
+  return _createElement(tag, props, ...(props.children || []));
+}
+
+export const jsxDEV = _jsxDEV;
+export const jsxs = _jsxDEV; // jsxs is the same as jsxDEV in this case
