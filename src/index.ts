@@ -188,10 +188,18 @@ export function _jsxDEV(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _key?: string | number | null,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _isStatic?: boolean,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _source?: { fileName: string; lineNumber: number; columnNumber: number },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _self?: unknown
 ): HTMLElement {
+  if (props == null) {
+    props = {};
+  }
+  if (!Array.isArray(props.children)) {
+    props.children = props.children ? [props.children] : [];
+  }
   return _createElement(tag, props, ...(props.children || []));
 }
 
